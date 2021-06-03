@@ -5,21 +5,34 @@
 TESTE V1
 </title>
 <script>
-if (/windows phone/i.test(userAgent)) {
-        return "Windows Phone";
+var permitir_mobile = true;
+var mobileUrl = 'http://m.meusitemobile.com.br';
+
+$(document).ready(function() {
+    var e = window;
+    redirectIfWidthLargeSize(e);
+    $(e).resize(function() {
+        redirectIfWidthLargeSize(e);
+    });
+
+});
+
+function redirectIfWidthLargeSize(e) {
+    if ($(e).width() < 1024 && permitir_mobile == true) {
+            e.location.href = mobileUrl;
     }
+    if ($(e).width() < 1024) {
 
-    if (/android/i.test(userAgent)) {
-        return "Android";
+        var el = '<li class="mob-url"><a href="' + mobileUrl + '">Versão Mobile</a></li>';
+
+        if ($('#menu_horizontal_base ul li.mob-url').length != 1) {
+            $('#menu_horizontal_base ul li:last').before(el);
+            $('footer nav ul li a').css('padding','30px 8px');
+        } else {
+            $('#menu_horizontal_base ul li.mob-url').remove();
+        }
     }
-
-
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "iOS";
-    }
-
-    return "mobilie.neutrojogos.ga";
-}
+};
 </script>
 </head>
 </html>
